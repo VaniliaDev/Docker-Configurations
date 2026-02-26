@@ -1,6 +1,6 @@
 services:
   projectzomboid:
-    image: indifferentbroccoli/projectzomboid-server-docker
+    image: docker.io/indifferentbroccoli/projectzomboid-server-docker
     restart: unless-stopped
     container_name: projectzomboid
     stop_grace_period: 30s
@@ -8,11 +8,15 @@ services:
       - 16261:16261/udp
       - 16262:16262/udp
       - 27015:27015/tcp
+    environment:
+      - GENERATE_SETTINGS=true
     env_file:
       - .env
     volumes:
       - ./server-files:/project-zomboid
       - ./server-data:/project-zomboid-config
+    networks:
+      - pz-net
 
   # playit tunnel agent — en el dashboard de playit.gg configurar los tunnels apuntando a:
   #   projectzomboid:16261 (UDP) y projectzomboid:16262 (UDP)
@@ -23,4 +27,13 @@ services:
     depends_on:
       - projectzomboid
     environment:
-      - SECRET_KEY=yoursecretkey
+      - SECRET_KEY=your-secret-key-here
+    networks:
+      - pz-net
+
+networks:
+  pz-net:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.20.0.0/16
