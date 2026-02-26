@@ -1,0 +1,35 @@
+# Docker & Environment
+.env.local
+
+# Project Zomboid Server Data (Large volumes / persistent data)
+**/data/
+**/server-data/
+**/server-files/
+**/workshop-mods/
+**/Zomboid/
+**/Saves/
+**/backups/
+**/build_context/
+
+# Logs
+**/*.log
+**/logs/
+**/console.txt
+
+# Python
+**/__pycache__/
+**/*.py[cod]
+**/*$py.class
+
+# IDEs and Editors
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS related files
+.DS_Store
+Thumbs.db
+
+# Large binary files potentially in other containers
+**/ollama/models/

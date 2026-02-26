@@ -1,0 +1,60 @@
+services:
+  ollama:
+    image: ollama/ollama:latest
+    container_name: ollama
+    ports:
+      - "11434:11434"
+    volumes:
+      - ollama_data:/root/.ollama
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: 1
+              capabilities: [gpu]
+    restart: unless-stopped
+
+  ollama-pull:
+    image: ollama/ollama:latest
+    container_name: ollama-pull
+    depends_on:
+      - ollama
+    environment:
+      - OLLAMA_HOST=http://ollama:11434
+    entrypoint: >
+      sh -c "echo 'Esperando a que Ollama inicie...' &&
+             sleep 10 &&
+             echo 'Descargando phi3...' &&
+             ollama pull phi3 &&
+             echo 'Descargando mistral...' &&
+             ollama pull mistral &&
+             echo 'Descargando gemma2:9b...' &&
+             ollama pull gemma2:9b &&
+             echo 'Descargando ministral-3:3b...' &&
+             ollama pull ministral-3:3b &&
+             echo 'Descargando codegemma...' &&
+             ollama pull codegemma &&
+             echo 'Descargando qwen2.5-coder:7b...' &&
+             ollama pull qwen2.5-coder:7b &&
+             echo 'Descargando deepseek-r1:8b...' &&
+             ollama pull deepseek-r1:8b &&
+             echo 'Todos los modelos listos!'"
+    restart: "no"
+
+  open-webui:
+    image: ghcr.io/open-webui/open-webui:main
+    container_name: open-webui
+    ports:
+      - "3000:8080"
+    volumes:
+      - openwebui_data:/app/backend/data
+    environment:
+      - OLLAMA_BASE_URL=http://ollama:11434
+    depends_on:
+      - ollama
+    restart: unless-stopped
+
+volumes:
+  ollama_data:
+  openwebui_data:
