@@ -2,12 +2,6 @@ services:
   ProjectZomboidDedicatedServer:
     image: docker.io/danixu86/project-zomboid-dedicated-server:latest-unstable
     restart: unless-stopped
-    build:
-      context: .
-      dockerfile: Dockerfile
-      args:
-        # Reads STEAMAPPBRANCH from your .env file to set the build version (ARG).
-        - STEAMAPPBRANCH=${STEAMAPPBRANCH}
     env_file:
       - .env
     ports:
@@ -29,7 +23,7 @@ services:
     depends_on:
       - ProjectZomboidDedicatedServer
     environment:
-      - SECRET_KEY=your-secret-key-here
+      - SECRET_KEY=5e56c6cbf7609645ff00271fab97f835fc659fa125be91004044b210b12d6e5b
     networks:
       - pz-net
 
