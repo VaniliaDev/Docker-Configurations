@@ -15,12 +15,7 @@ services:
     volumes:
       - ./server-files:/project-zomboid
       - ./server-data:/project-zomboid-config
-    networks:
-      - pz-net
 
-  # playit tunnel agent — en el dashboard de playit.gg configurar los tunnels apuntando a:
-  #   projectzomboid:16261 (UDP) y projectzomboid:16262 (UDP)
-  # NO usar network_mode: host porque no funciona en Docker Desktop para Windows.
   playit:
     image: ghcr.io/playit-cloud/playit-agent:0.17
     restart: unless-stopped
@@ -28,12 +23,3 @@ services:
       - projectzomboid
     environment:
       - SECRET_KEY=your-secret-key-here
-    networks:
-      - pz-net
-
-networks:
-  pz-net:
-    driver: bridge
-    ipam:
-      config:
-        - subnet: 172.20.0.0/16

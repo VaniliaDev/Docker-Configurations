@@ -14,10 +14,8 @@ def clean_list(items_str, is_mod_list=False):
     items = items_str.split(';')
     cleaned = []
     for item in items:
-        item = item.strip().lstrip('\\').strip()
+        item = item.strip()
         if not item: continue
-        if is_mod_list:
-            item = '\\\\' + item
         cleaned.append(item)
     return ';'.join(cleaned)
 
@@ -67,7 +65,7 @@ def update_ini():
             
     with open(INI_PATH, 'w') as f:
         f.writelines(new_lines)
-    print("INI actualizado con formato Build 42 (\\\\) y limpieza de caracteres.")
+    print("INI actualizado con limpieza de caracteres.")
 
 if __name__ == "__main__":
     print("=== PZ MOD FIXER PARA BUILD 42 (LINUX) ===")

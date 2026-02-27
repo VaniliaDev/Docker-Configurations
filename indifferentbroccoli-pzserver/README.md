@@ -56,12 +56,7 @@ podman-compose restart projectzomboid
 
 ## 📦 Guía de Mods (Build 42)
 
-La Build 42 en Linux tiene dos desafíos principales que este repositorio soluciona:
-
-### 1. El Formato de Doble Backslash (`\\`)
-A diferencia de versiones anteriores, la Build 42 en servidores Linux requiere que los nombres de los mods en el archivo de configuración lleven una doble barra invertida (ej: `\\ModName`). Esto evita errores de "Mod Not Found" en el cliente.
-
-### 2. Sensibilidad a Mayúsculas (Case Sensitivity)
+### 1. Sensibilidad a Mayúsculas (Case Sensitivity)
 Muchos mods son creados en Windows, donde `Media` y `media` son lo mismo. En Linux, el servidor fallará al cargar animaciones o scripts si el mod busca `animsets` pero la carpeta se llama `AnimSets`.
 
 ### 🔧 Cómo usar el Auto-Fixer
@@ -100,12 +95,11 @@ podman unshare python3 add_spawn_point.py
 ## 🧠 ¿Por qué es necesario este setup?
 
 Si has intentado montar un servidor de Project Zomboid B42 en Linux con muchos mods, habrás notado que:
-1. **Los mods aparecen como [NotFound]:** Esto ocurre porque el cliente de PZ Build 42 espera que los mods publicados por servidores Linux tengan un prefijo `\\` para escapar correctamente los nombres en el protocolo de red.
-2. **Errores de archivos no encontrados (Red Log):** La mayoría de los modders trabajan en Windows (sistema de archivos insensible a mayúsculas). Suben carpetas como `Media/AnimSets`. Linux busca `media/animsets` y, al no encontrar la coincidencia exacta de mayúsculas, el mod falla silenciosamente o con errores rojos.
+1. **Errores de archivos no encontrados (Red Log):** La mayoría de los modders trabajan en Windows (sistema de archivos insensible a mayúsculas). Suben carpetas como `Media/AnimSets`. Linux busca `media/animsets` y, al no encontrar la coincidencia exacta de mayúsculas, el mod falla silenciosamente o con errores rojos.
 
 ### La solución de este repositorio
 Este "template" no solo levanta el contenedor, sino que proporciona el **Fixer de Mayúsculas** más avanzado hasta la fecha para PZ:
-- **Symlinking Recursivo:** En lugar de renombrar archivos (que rompería las act_ualizaciones de Steam), creamos pequeños enlaces simbólicos en minúsculas. Así, el juego encuentra el archivo tanto si lo busca en mayúsculas como en minúsculas.
+- **Symlinking Recursivo:** En lugar de renombrar archivos (que rompería las actualizaciones de Steam), creamos pequeños enlaces simbólicos en minúsculas. Así, el juego encuentra el archivo tanto si lo busca en mayúsculas como en minúsculas.
 - **Sanitización de Configuración:** El script limpia automáticamente tabulaciones, retrocesos y otros caracteres invisibles que suelen corromper los archivos `.ini` al copiar y pegar listas largas de mods.
 
 ---
