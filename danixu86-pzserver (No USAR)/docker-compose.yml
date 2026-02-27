@@ -11,8 +11,6 @@ services:
     volumes:
       # Server data
       - ./data:/home/steam/Zomboid
-      # Workshop mods folder
-      - ./workshop-mods:/home/steam/pz-dedicated/steamapps/workshop
     networks:
       - pz-net
 
@@ -32,4 +30,4 @@ networks:
     driver: bridge
     ipam:
       config:
-        - subnet: 172.20.0.0/16
+        - subnet: 172.21.0.0/16

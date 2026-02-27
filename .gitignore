@@ -10,6 +10,7 @@
 **/Saves/
 **/backups/
 **/build_context/
+**/steamapps/
 
 # Logs
 **/*.log
